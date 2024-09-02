@@ -26,7 +26,3 @@ def generate_soundex(name):
             break
 
     return ''.join(soundex).ljust(4, '0')
-        if soundex_length == 4:
-            break
-
-    return ''.join(soundex).ljust(4, '0')
