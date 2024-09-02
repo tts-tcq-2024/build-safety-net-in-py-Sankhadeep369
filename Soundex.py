@@ -19,7 +19,7 @@ def generate_soundex(name):
     codes = [c for c in codes if c != '0']
 
     # Handle duplicates
-    for i in range(len(codes) - 1):
+    for i in range(len(codes) - 2):  # Changed to len(codes) - 2
         if codes[i] == codes[i + 1] or (codes[i] == codes[i + 2] and codes[i + 1] in ('H', 'W')):
             del codes[i + 1]
 
