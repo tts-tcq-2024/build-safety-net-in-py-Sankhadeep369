@@ -8,21 +8,15 @@ def get_soundex_code(c):
         'M': '5', 'N': '5',
         'R': '6'
     }
-    return mapping.get(c, '0')  # Default to '0' for non-mapped characters
+    return mapping.get(c, '0')
 
 def generate_soundex(name):
     if not name:
         return ""
 
-    soundex = [name[0].upper()]
-    prev_code = soundex[0]
-
-    for char in name[1:]:
-        code = get_soundex_code(char)
-        if code != '0' and code != prev_code:
-            soundex.append(code)
-            prev_code = code
-        if len(soundex) > 4:
-            break
-
-    return ''.join(soundex).ljust(4, '0')
+    soundex = name[0].upper()
+    codes = [get_soundex_code(c) for c in name[1:]]
+    codes = [c for c in codes if c != '0' and c != codes[0]]
+    soundex += ''.join(codes[:3])
+    soundex = soundex.ljust(4, '0')
+    return soundex
