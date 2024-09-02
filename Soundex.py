@@ -14,23 +14,25 @@ def generate_soundex(name):
     if not name:
         return ""
 
-    # Start with the first letter (capitalized)
     soundex = name[0].upper()
     prev_code = get_soundex_code(soundex)
+    soundex_length = 1  # Start with the first letter already included
 
     for char in name[1:]:
         code = get_soundex_code(char)
 
-        if code == '0':  # Skip non-mapped characters and vowels
-            continue
-        
-        # Only add if the code is different from the previous code and not separated by a vowel.
-        if code != prev_code:
+        if code == '0':
+            continue  # Skip vowels and non-mapped characters
+
+        if code != prev_code:  # Only add non-repeating codes
             soundex += code
-            if len(soundex) == 4:  # Break early if we have 4 characters
+            soundex_length += 1
+            if soundex_length == 4:
                 break
 
         prev_code = code
+
+    return soundex.ljust(4, '0')  # Ensure the Soundex code is always 4 characters long
 
     # Pad with zeros if necessary to make length 4
     soundex = soundex.ljust(4, '0')
