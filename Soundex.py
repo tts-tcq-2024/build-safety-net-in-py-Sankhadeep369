@@ -18,14 +18,11 @@ def generate_soundex(name):
     codes = [get_soundex_code(c) for c in name[1:]]
     codes = [c for c in codes if c != '0']
 
-    # Create a copy of the codes list to avoid modifying the original
-    codes_copy = codes[:]
-
     # Handle duplicates
-    for i in range(len(codes_copy) - 2):
-        if codes_copy[i] == codes_copy[i + 1] or (codes_copy[i] == codes_copy[i + 2] and codes_copy[i + 1] in ('H', 'W')):
-            del codes_copy[i + 1]
+    for i in range(len(codes) - 2):  # Changed to len(codes) - 2
+        if codes[i] == codes[i + 1] or (codes[i] == codes[i + 2] and codes[i + 1] in ('H', 'W')):
+            del codes[i + 1]
 
-    soundex += ''.join(codes_copy[:3])
+    soundex += ''.join(codes[:3])
     soundex = soundex.ljust(4, '0')
     return soundex
