@@ -16,13 +16,18 @@ def generate_soundex(name):
 
     soundex = name[0].upper()
     codes = [get_soundex_code(c) for c in name[1:]]
-    codes = [c for c in codes if c != '0' and c != codes[0]]
+    codes = [c for c in codes if c != '0']
 
-    # Handle adjacent duplicates
-    for i in range(len(codes) - 1):
-        if codes[i] == codes[i + 1]:
-            del codes[i + 1]
+    # Create a copy of the codes list to avoid modifying the original
+    codes_copy = codes[:]
 
-    soundex += ''.join(codes[:3])
+    # Handle duplicates
+    for i in range(len(codes_copy) - 2):
+        if (codes_copy[i] == codes_copy[i + 2] and  # Check i and i+2 for duplicates
+                (codes_copy[i + 1] in 'AEIOU' or  # Check if i+1 is a vowel
+                 (codes_copy[i + 1] in ('H', 'W') and i + 2 < len(codes_copy) and codes_copy[i + 3] in 'AEIOU'))):  # Check for 'H' or 'W' followed by vowel
+            del codes_copy[i + 1]
+
+    soundex += ''.join(codes_copy[:3])
     soundex = soundex.ljust(4, '0')
     return soundex
