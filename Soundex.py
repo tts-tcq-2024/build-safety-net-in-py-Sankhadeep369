@@ -10,6 +10,7 @@ def get_soundex_code(c):
     }
     return lookup_table.get(c, '0')
 
+# Refactored generate_soundex function with improved handling of adjacent consonants
 def generate_soundex(name):
     if not name:
         return ""
