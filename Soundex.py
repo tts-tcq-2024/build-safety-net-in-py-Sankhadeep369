@@ -17,17 +17,19 @@ def generate_soundex(name):
     # First letter is directly appended
     soundex = name[0].upper()
 
-    # Create a list of soundex codes using the lookup table and skip invalid characters
-    codes = [get_soundex_code(c) for c in name[1:] if get_soundex_code(c) != '0']
+    # Create a list of soundex codes using the lookup table, ignoring vowels and 'h', 'w'
+    codes = []
+    prev_code = get_soundex_code(soundex)  # Start with the first letter's soundex code
 
-    # Remove consecutive duplicates (this includes 'hw' rules automatically)
-    filtered_codes = [codes[0]] if codes else []
-    for i in range(1, len(codes)):
-        if codes[i] != codes[i - 1]:
-            filtered_codes.append(codes[i])
+    for char in name[1:]:
+        code = get_soundex_code(char)
+        # Skip if the code is '0' (vowels, h, w) or if it's the same as the previous code
+        if code != '0' and code != prev_code:
+            codes.append(code)
+            prev_code = code
 
-    # Build final soundex code
-    soundex += ''.join(filtered_codes[:3])
+    # Build the final soundex code by combining the first letter and up to 3 additional codes
+    soundex += ''.join(codes[:3])
     
     # Ensure the soundex code is 4 characters long, padding with zeros if necessary
     return soundex.ljust(4, '0')
