@@ -16,11 +16,11 @@ def generate_soundex(name):
 
     soundex = name[0].upper()
     codes = [get_soundex_code(c) for c in name[1:]]
-    codes = [c for c in codes if c != '0']
+    codes = [c for c in codes if c != '0' and c != codes[0]]
 
-    # Handle duplicates
-    for i in range(len(codes) - 2):  # Changed to len(codes) - 2
-        if codes[i] == codes[i + 1] or (codes[i] == codes[i + 2] and codes[i + 1] in ('H', 'W')):
+    # Handle adjacent duplicates
+    for i in range(len(codes) - 1):
+        if codes[i] == codes[i + 1]:
             del codes[i + 1]
 
     soundex += ''.join(codes[:3])
