@@ -23,9 +23,7 @@ def generate_soundex(name):
 
     # Handle duplicates
     for i in range(len(codes_copy) - 2):
-        if (codes_copy[i] == codes_copy[i + 2] and  # Check i and i+2 for duplicates
-                (codes_copy[i + 1] in 'AEIOU' or  # Check if i+1 is a vowel
-                 (codes_copy[i + 1] in ('H', 'W') and i + 2 < len(codes_copy) and codes_copy[i + 3] in 'AEIOU'))):  # Check for 'H' or 'W' followed by vowel
+        if codes_copy[i] == codes_copy[i + 1] or (codes_copy[i] == codes_copy[i + 2] and codes_copy[i + 1] in ('H', 'W')):
             del codes_copy[i + 1]
 
     soundex += ''.join(codes_copy[:3])
