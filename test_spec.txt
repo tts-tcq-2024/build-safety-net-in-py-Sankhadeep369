@@ -1,0 +1,17 @@
+Test Case ID	Function	Input	Expected Output	Actual Output	Status
+TC_001	get_soundex_code	'B'	'1'	'1'	Pass
+TC_002	get_soundex_code	'C'	'2'	'2'	Pass
+TC_003	get_soundex_code	'D'	'3'	'3'	Pass
+TC_004	get_soundex_code	'L'	'4'	'4'	Pass
+TC_005	get_soundex_code	'M'	'5'	'5'	Pass
+TC_006	get_soundex_code	'R'	'6'	'6'	Pass
+TC_007	get_soundex_code	'A'	'0'	'0'	Pass
+TC_008	get_soundex_code	'H'	'0'	'0'	Pass
+TC_009	get_soundex_code	'W'	'0'	'0'	Pass
+TC_010	get_soundex_code	'Z'	'2'	'2'	Pass
+TC_011	generate_soundex	''	''	''	Pass
+TC_012	generate_soundex	'Robert'	'R163'	'R163'	Pass
+TC_013	generate_soundex	'Rupert'	'R163'	'R163'	Pass
+TC_014	generate_soundex	'Rubin'	'R150'	'R150'	Pass
+TC_015	generate_soundex	'Ashcraft'	'A261'	'A261'	Pass
+TC_016	generate_soundex	'Smith'	'S530'	'S530'	Pass
