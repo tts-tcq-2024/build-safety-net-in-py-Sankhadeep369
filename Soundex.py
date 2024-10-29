@@ -1,6 +1,8 @@
-def get_soundex_code(c):
-    c = c.upper()
-    lookup_table = {
+# soundex.py
+
+def get_soundex_code(char):
+    char = char.upper()
+    soundex_table = {
         'B': '1', 'F': '1', 'P': '1', 'V': '1',
         'C': '2', 'G': '2', 'J': '2', 'K': '2', 'Q': '2', 'S': '2', 'X': '2', 'Z': '2',
         'D': '3', 'T': '3',
@@ -8,27 +10,31 @@ def get_soundex_code(c):
         'M': '5', 'N': '5',
         'R': '6'
     }
-    return lookup_table.get(c, '0')
+    return soundex_table.get(char, '0')
+
+def is_vowel_or_special(char):
+    return char in 'AEIOUYHW'
+
+def process_character(char, prev_code):
+    code = get_soundex_code(char)
+    if code != '0' and code != prev_code:
+        return code
+    return None
 
 def generate_soundex(name):
     if not name:
         return ""
 
-    # First letter is directly appended
     soundex = name[0].upper()
+    prev_code = get_soundex_code(soundex)
 
-    # Create a list of soundex codes using the lookup table
-    codes = []
-    prev_code = get_soundex_code(soundex)  # Start with the first letter's soundex code
+    codes = [
+        process_character(char, prev_code)
+        for char in name[1:]
+        if not is_vowel_or_special(char)
+    ]
+    # Filter out None values and get up to 3 codes
+    filtered_codes = list(filter(None, codes))[:3]
 
-    for char in name[1:]:
-        code = get_soundex_code(char)
-        # Skip if the code is '0' or if it's the same as the previous code
-        if code != '0' and code != prev_code:
-            codes.append(code)
-            prev_code = code
-
-    soundex += ''.join(codes[:3])
-    
-    # Ensure the soundex code is 4 characters long, padding with zeros if necessary
-    return soundex.ljust(4, '0')
+    # Append the first letter and three digits or pad with '0'
+    return (soundex + ''.join(filtered_codes)).ljust(4, '0')
