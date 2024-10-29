@@ -88,5 +88,3 @@ Tests aim to cover all major functionalities and edge cases to ensure robust imp
 This test specification serves as a guide to validate the Soundex algorithm implementation. Regular updates and additions to test cases are recommended as new features or changes are introduced to the codebase.
 
 --- 
-
-Feel free to modify any section to fit your project needs or to add any additional test cases you deem necessary!
