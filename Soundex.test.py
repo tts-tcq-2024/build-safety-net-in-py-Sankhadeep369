@@ -1,5 +1,7 @@
+# test_soundex.py
+
 import unittest
-from Soundex import generate_soundex, get_soundex_code
+from soundex import generate_soundex, get_soundex_code
 
 class TestSoundex(unittest.TestCase):
 
@@ -30,6 +32,16 @@ class TestSoundex(unittest.TestCase):
         self.assertEqual(generate_soundex('A'), 'A000')
         self.assertEqual(generate_soundex('Al'), 'A400')
         self.assertEqual(generate_soundex('Ali'), 'A400')
+
+    def test_special_characters_and_vowels(self):
+        # Test sequences with consecutive h and w
+        self.assertEqual(generate_soundex('Ashworth'), 'A263')
+        self.assertEqual(generate_soundex('Tolhwest'), 'T430')
+        # Test cases with multiple vowels and no consonants
+        self.assertEqual(generate_soundex('AEOU'), 'A000')
+        self.assertEqual(generate_soundex('AEIOUY'), 'A000')
+        # Test case where letters map to the same code and are separated by h or w
+        self.assertEqual(generate_soundex('Bhbh'), 'B100')
 
 if __name__ == '__main__':
     unittest.main()
