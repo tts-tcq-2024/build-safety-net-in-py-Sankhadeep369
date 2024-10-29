@@ -1,6 +1,7 @@
 # soundex.py
 
 def get_soundex_code(char):
+    """Get the soundex code for a single character."""
     char = char.upper()
     soundex_table = {
         'B': '1', 'F': '1', 'P': '1', 'V': '1',
@@ -13,28 +14,25 @@ def get_soundex_code(char):
     return soundex_table.get(char, '0')
 
 def is_vowel_or_special(char):
+    """Check if a character is a vowel or a special character."""
     return char in 'AEIOUYHW'
 
-def process_character(char, prev_code):
-    code = get_soundex_code(char)
-    if code != '0' and code != prev_code:
-        return code
-    return None
-
 def generate_soundex(name):
+    """Generate the Soundex code for a given name."""
     if not name:
         return ""
 
-    soundex = name[0].upper()
+    soundex = name[0].upper()  # Start with the first letter
     prev_code = get_soundex_code(soundex)
+    codes = []
 
-    codes = [
-        process_character(char, prev_code)
-        for char in name[1:]
-        if not is_vowel_or_special(char)
-    ]
-    # Filter out None values and get up to 3 codes
-    filtered_codes = list(filter(None, codes))[:3]
+    for char in name[1:]:
+        if is_vowel_or_special(char):
+            continue
+        code = get_soundex_code(char)
+        if code != '0' and code != prev_code:
+            codes.append(code)
+            prev_code = code
 
-    # Append the first letter and three digits or pad with '0'
-    return (soundex + ''.join(filtered_codes)).ljust(4, '0')
+    # Join the soundex code and pad if necessary
+    return (soundex + ''.join(codes)[:3]).ljust(4, '0')
